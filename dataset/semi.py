@@ -310,13 +310,10 @@ class SemiDataset(Dataset):
             x0, y0, x1, y1 = 256 * ll[0], 256 * ll[1], 256 * ll[2], 256 * ll[3]
             if x0 == x1 and y0 == y1:
                 print('fatal err!')
-                print(ann['img_w'], ann['img_h'])
-                #print(ll)
-                #print(l)
-                #print(ann)
-                #exit(0)
+                # continue    # skip the line with zero length
 
             norm_lines.append(ll)
+            # norm_lines.append([x0, y0, x1, y1]) #Copilots version
 
         ann['norm_lines'] = norm_lines
 
