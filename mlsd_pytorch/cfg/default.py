@@ -9,13 +9,13 @@ _C.sys.num_workers = 8
 ##
 _C.datasets = CN()
 _C.datasets.name = ''
-_C.datasets.input_size =  512
-_C.datasets.with_centermap_extend =  False
+_C.datasets.input_size = 512
+_C.datasets.with_centermap_extend = False
 
 
 ##
 _C.model = CN()
-_C.model.model_name  = ''
+_C.model.model_name = ''
 _C.model.with_deconv = False
 _C.model.num_classes = 1
 
@@ -61,6 +61,26 @@ _C.val.label_fn = ''
 
 _C.val.val_after_epoch = 0
 
+_C.test = CN()
+_C.test.img_dir = ''
+_C.test.label_fn = ''
+
+_C.test_snoge = CN()
+_C.test_snoge.img_dir = ''
+_C.test_snoge.label_fn = ''
+
+_C.test_skrylle = CN()
+_C.test_skrylle.img_dir = ''
+_C.test_skrylle.label_fn = ''
+
+_C.wireframe = CN()
+_C.wireframe.img_dir = ''
+_C.wireframe.label_fn = ''
+
+_C.test_finn = CN()
+_C.test_finn.img_dir = ''
+_C.test_finn.label_fn = ''
+
 _C.loss = CN()
 _C.loss.loss_weight_dict_list = []
 _C.loss.loss_type = '1*L1'
@@ -74,10 +94,20 @@ _C.decode = CN()
 _C.decode.score_thresh = 0.05
 _C.decode.len_thresh = 5
 _C.decode.top_k = 500
+_C.decode.sap_thresh = 10
+
+_C.unimatch = CN()
+_C.unimatch.dataset = ""
+_C.unimatch.nclass = 16 #?
+_C.unimatch.crop_size = 512 #321 # 513 # 801
+_C.unimatch.data_root = "/home2/johannae/semi-lines/UniMatch/data/FinnForest"
+_C.unimatch.save_images = "/home2/johannae/semi-lines/UniMatch/out"
+_C.unimatch.conf_thresh = 0.95
 
 
-def get_cfg_defaults(merge_from = None):
-  cfg =  _C.clone()
-  if merge_from is not None:
-      cfg.merge_from_other_cfg(merge_from)
-  return cfg
+
+def get_cfg_defaults(merge_from=None):
+    cfg = _C.clone()
+    if merge_from is not None:
+        cfg.merge_from_other_cfg(merge_from)
+    return cfg

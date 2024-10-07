@@ -134,7 +134,7 @@ class LineSegmentLoss(nn.Module):
         self.loss_w_dict = {
             'tp_center_loss': 10.0,
             'tp_displacement_loss': 1.0,
-            'tp_len_loss': 1.0,
+            'tp_len_loss': 1.0, #1.0,
             'tp_angle_loss': 1.0,
             'tp_match_loss': 1.0,
             'tp_centerness_loss': 1.0,  # current not support
@@ -150,16 +150,14 @@ class LineSegmentLoss(nn.Module):
             'junc_seg_loss': 1.0
         }
 
-
         if len(cfg.loss.loss_weight_dict_list) > 0:
             self.loss_w_dict.update(cfg.loss.loss_weight_dict_list[0])
-
 
         print("===> loss weight: ", self.loss_w_dict)
 
     def _m_gt_matched_n(self, p_lines, gt_lines, thresh):
         gt_lines = gt_lines.cuda()
-        distance1 = torch.cdist(gt_lines[:, :2],p_lines[:, :2],  p=2)
+        distance1 = torch.cdist(gt_lines[:, :2], p_lines[:, :2],  p=2)
         distance2 = torch.cdist(gt_lines[:, 2:], p_lines[:, 2:], p=2)
 
         distance = distance1 + distance2
@@ -177,8 +175,16 @@ class LineSegmentLoss(nn.Module):
 
     def _m_match_loss_fn(self, p_lines, p_centers, p_scores, gt_lines, thresh):
         gt_lines = gt_lines.cuda()
-        distance1 = torch.cdist(p_lines[:, :2], gt_lines[:, :2], p=2)
-        distance2 = torch.cdist(p_lines[:, 2:], gt_lines[:, 2:], p=2)
+        try:
+            distance1 = torch.cdist(p_lines[:, :2], gt_lines[:, :2], p=2)
+        except IndexError:
+            print(p_lines.shape, gt_lines.shape)
+        try:
+            distance2 = torch.cdist(p_lines[:, 2:], gt_lines[:, 2:], p=2)
+        except IndexError:
+            print(p_lines.shape, gt_lines.shape)
+
+        # distance2 = torch.cdist(p_lines[:, 2:], gt_lines[:, 2:], p=2)
 
         distance = distance1 + distance2
         near_inx = torch.argsort(distance, 1)[:, 0]  # most neared one
@@ -187,8 +193,6 @@ class LineSegmentLoss(nn.Module):
 
         distance1 = F.pairwise_distance(matched_gt_lines[:, :2], p_lines[:, :2], p=2)
         distance2 = F.pairwise_distance(matched_gt_lines[:, 2:], p_lines[:, 2:], p=2)
-
-        # print("distance1: ",distance1.shape)
 
         inx = torch.where((distance1 < thresh) & (distance2 < thresh))[0]
 
@@ -222,13 +226,13 @@ class LineSegmentLoss(nn.Module):
 
             # center_dis_loss = torch.where(center_dis_loss< 1.0, torch.zeros_like(center_dis_loss), center_dis_loss - 1.0)
             # endpoint_loss = torch.where(endpoint_loss< 1.0, torch.zeros_like(endpoint_loss), endpoint_loss - 1.0)
-            #center_dis_loss = center_dis_loss.mean()
-            #endpoint_loss = endpoint_loss.mean()
+            # center_dis_loss = center_dis_loss.mean()
+            # endpoint_loss = endpoint_loss.mean()
             # print("mean score: ", mathed_pred_scores.mean())
 
             # larger is better
-            #mean_score = mathed_pred_scores.mean()
-            #print(mean_score)
+            # mean_score = mathed_pred_scores.mean()
+            # print(mean_score)
             loss = 1.0*endpoint_loss + 1.0 * center_dis_loss# - 1.0* mean_score
 
             # if len(unmached_inx) >0:
@@ -243,7 +247,7 @@ class LineSegmentLoss(nn.Module):
 
             # loss = loss / mathed_pred_lines.shape[0]
 
-        ## match ratio large is good
+        # match ratio large is good
         # loss = loss - 5 * match_ratio
         # print("loss: ", loss)
         # print("match_n: ", match_n)
@@ -274,15 +278,16 @@ class LineSegmentLoss(nn.Module):
             pred_center_ptss_128 = 128 * pred_center_ptss / (self.input_size / 2)
 
             pred_lines_128 = torch.cat((pred_lines_128, pred_lines_128_swap),dim=0)
-            pred_center_ptss_128 = torch.cat((pred_center_ptss_128,pred_center_ptss_128),dim=0)
-            pred_scores = torch.cat((pred_scores,pred_scores),dim=0)
+            pred_center_ptss_128 = torch.cat((pred_center_ptss_128, pred_center_ptss_128), dim=0)
+            pred_scores = torch.cat((pred_scores, pred_scores), dim=0)
 
-            mloss, match_n_pred = self._m_match_loss_fn(pred_lines_128,
-                                                     pred_center_ptss_128,
-                                                     pred_scores, gt_line_128, self.match_sap_thresh)
+            mloss, match_ratio = 0.0, 0.0
+            if len(gt_line_128) != 0:
+                mloss, match_n_pred = self._m_match_loss_fn(pred_lines_128, pred_center_ptss_128,
+                                                            pred_scores, gt_line_128, self.match_sap_thresh)
 
-            match_n = self._m_gt_matched_n(pred_lines_128,gt_line_128, self.match_sap_thresh)
-            match_ratio = match_n / n_gt
+                match_n = self._m_gt_matched_n(pred_lines_128, gt_line_128, self.match_sap_thresh)
+                match_ratio = match_n / n_gt
 
             match_loss_all += mloss
             match_ratio_all += match_ratio
@@ -310,7 +315,7 @@ class LineSegmentLoss(nn.Module):
             gt_angle=gt[:, 13, :, :]
         )
         match_loss, match_ratio = 0, 0
-        if self.with_match_loss:
+        if self.with_match_loss and len(gt_lines_tensor_512_list[0]) > 0:
             match_loss, match_ratio = self.matching_loss_func(out[:, 7:12],
                                                               gt_lines_tensor_512_list)
 
@@ -366,18 +371,16 @@ class LineSegmentLoss(nn.Module):
 
         out_junc_seg = out[:, 14, :, :]
         gt_junc_seg = gt[:, 14, :, :]
-        if self.with_focal_loss  and self.focal_loss_level >=2:
+        if self.with_focal_loss and self.focal_loss_level >=2:
             junc_seg_loss = focal_neg_loss_with_logits(out_junc_seg, gt_junc_seg)
         else:
             junc_seg_loss = weighted_bce_with_logits(out_junc_seg, gt_junc_seg, 1.0, 30.0)
-
 
         return line_seg_loss, junc_seg_loss
 
     def forward(self, preds, gts,
                 tp_gt_lines_512_list,
                 sol_gt_lines_512_list):
-
         line_seg_loss, junc_seg_loss = self.line_and_juc_seg_loss(preds, gts)
 
         loss_dict = {
@@ -394,14 +397,20 @@ class LineSegmentLoss(nn.Module):
 
         loss_dict.update(tp_loss_dict)
 
-        loss = 0.0
+        loss = torch.tensor(0.0).cuda()
         for k, v in loss_dict.items():
             if not self.with_SOL_loss and 'sol_' in k:
                 continue
             if k in self.loss_w_dict.keys():
-                v = v * self.loss_w_dict[k]
-                loss_dict[k] = v
-                loss += v
+                #print(k)
+                #print("Before: ", loss, v)
+                if not math.isnan(v):
+                    #print(self.loss_w_dict[k])
+                    v = v * self.loss_w_dict[k]
+                    loss_dict[k] = v
+                    #print("v: ", v)
+                    loss += v
+                    #print("Loss: ", loss)
         loss_dict['loss'] = loss
 
         if self.with_SOL_loss:

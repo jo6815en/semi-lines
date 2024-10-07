@@ -1,0 +1,82 @@
+datasets:
+    name: 'wireframe'
+    input_size: 512
+
+model:
+    # model_name: 'mobilev2_mlsd'
+    model_name: 'mobilev2_mlsd_large'
+    with_deconv: True
+
+# arguments for dataset
+unimatch:
+    dataset: finnwoods
+    nclass: 16
+    crop_size: 512 #321 # 513 # 801
+    data_root: /home2/johannae/semi-lines/UniMatch/data/FinnForest
+    save_images: /home2/johannae/semi-lines/UniMatch/out
+    conf_thresh: 0.95
+
+
+train:
+    #img_dir:  "./data/trees/train2017/"
+    #label_fn: "./data/trees/blub_mlsd_train.json"
+    save_dir: './workdir/models/trees/'
+    img_dir: "./data/FinnForest/rgb/train/"
+    label_fn: "./data/FinnForest/annos_train_finnwoods.json"
+    num_train_epochs: 200 #500
+    batch_size: 1 #8 # 2 #16 #6
+    learning_rate: 0.0001 #0.00005 # 0.0001 #0.001 testa 0.00005 sen
+    use_step_lr_policy: True
+    weight_decay: 0.000001
+    load_from: ""
+    warmup_steps: 100
+    milestones: [ 50, 100, 150 ]
+    milestones_in_epo: True
+    lr_decay_gamma: 0.2
+
+    data_cache_dir: "./data/wireframe_cache/"
+    with_cache: False
+    cache_to_mem: False
+
+val:
+    #img_dir: "./data/trees/val2017/"
+    #img_dir: "./data/one_image/"
+    img_dir: "./data/FinnForest/rgb/val/"
+    #label_fn: "./data/trees/blub_mlsd_val.json"
+    #label_fn: "./data/one_image/list.json"
+    label_fn: "./data/FinnForest/annos_val_finnwoods.json"
+    batch_size: 2
+    val_after_epoch: 50
+
+test:
+    img_dir: "./data/trees/val/"
+    label_fn: "./data/trees/blub_mlsd_val.json"
+
+test_finn:
+    img_dir: "./data/FinnForest/rgb/val/"
+    label_fn: "./data/FinnForest/annos_val_finnwoods.json"
+
+test_snoge:
+    img_dir: "./data/sam_segs/snoge_frames2/"
+    label_fn: "./data/sam_segs/annos_snoge.json"
+
+test_skrylle:
+    img_dir: "./data/sam_segs/skrylle_frames/"
+    label_fn: "./data/sam_segs/annos_skrylle_new.json"
+
+
+
+loss:
+    loss_weight_dict_list: [ { 'tp_center_loss': 10.0,'sol_center_loss': 1.0,'tp_match_loss':1.0 } ]
+
+    with_match_loss: True
+    with_focal_loss: True
+    focal_loss_level: 0
+    with_sol_loss: True
+    match_sap_thresh: 5.0
+
+decode:
+    score_thresh: 0.13 #0.08 # 0.05
+    len_thresh: 5
+    top_k: 500
+    sap_thresh: 10 #100 #10

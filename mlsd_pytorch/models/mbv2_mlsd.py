@@ -219,8 +219,8 @@ class BilinearConvTranspose2d(nn.ConvTranspose2d):
 
     def reset_parameters(self):
         """Reset the weight and bias."""
-        nn.init.constant(self.bias, 0)
-        nn.init.constant(self.weight, 0)
+        nn.init.constant_(self.bias, 0)
+        nn.init.constant_(self.weight, 0)
         bilinear_kernel = self.bilinear_kernel(self.stride)
         for i in range(self.in_channels):
             if self.groups == 1:
@@ -285,10 +285,8 @@ class MobileV2_MLSD(nn.Module):
             self.block17.reset_parameters()
 
 
-    def forward(self, x):
+    def forward(self, x, need_fp=False):
         c1, c2, c3, c4 = self.backbone(x)
-
-        # print(c1.shape)
 
         x = self.block12(c3, c4)
         x = self.block13(x)
@@ -301,8 +299,6 @@ class MobileV2_MLSD(nn.Module):
         else:
             x = F.interpolate(x, scale_factor=2.0, mode='bilinear', align_corners=True)
 
-        #x = x[:, 7:, :, :]
-        #print(x.shape)
         return x
 
 

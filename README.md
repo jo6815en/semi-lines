@@ -9,7 +9,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/revisiting-weak-to-strong-consistency-in-semi/semi-supervised-semantic-segmentation-on-2)](https://paperswithcode.com/sota/semi-supervised-semantic-segmentation-on-2?p=revisiting-weak-to-strong-consistency-in-semi)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/revisiting-weak-to-strong-consistency-in-semi/semi-supervised-semantic-segmentation-on-1)](https://paperswithcode.com/sota/semi-supervised-semantic-segmentation-on-1?p=revisiting-weak-to-strong-consistency-in-semi)
 
-This codebase contains a strong re-implementation of FixMatch in the field of semi-supervised semantic segmentation, as well as the official PyTorch implementation of our UniMatch in the **[natural](https://github.com/LiheYoung/UniMatch), [remote sensing](https://github.com/LiheYoung/UniMatch/tree/main/more-scenarios/remote-sensing), and [medical](https://github.com/LiheYoung/UniMatch/tree/main/more-scenarios/medical) scenarios**.
+This codebase contains a strong re-implementation of FixMatch in the field of semi-supervised semantic segmentation, as well as the official PyTorch implementation of our UniMatch in the **natural, remote sensing, and medical scenarios**.
 
 > **[Revisiting Weak-to-Strong Consistency in Semi-Supervised Semantic Segmentation](https://arxiv.org/abs/2208.09910)**</br>
 > Lihe Yang, Lei Qi, Litong Feng, Wayne Zhang, Yinghuan Shi</br>
@@ -133,8 +133,6 @@ Please modify your dataset path in configuration files.
 ```bash
 # use torch.distributed.launch
 sh scripts/train.sh <num_gpu> <port>
-# to fully reproduce our results, the <num_gpu> should be set as 4 on all three datasets
-# otherwise, you need to adjust the learning rate accordingly
 
 # or use slurm
 # sh scripts/slurm_train.sh <num_gpu> <port> <partition>

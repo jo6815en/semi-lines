@@ -1,8 +1,8 @@
-import  sys
+import sys
 sys.path.append('../../')
 
 from mlsd_pytorch.models.mbv2_mlsd import MobileV2_MLSD
-from mlsd_pytorch.models.mbv2_mlsd_large import  MobileV2_MLSD_Large
+from mlsd_pytorch.models.mbv2_mlsd_large import MobileV2_MLSD_Large
 
 
 def build_model(cfg):
@@ -13,4 +13,4 @@ def build_model(cfg):
     if model_name == 'mobilev2_mlsd_large':
         m = MobileV2_MLSD_Large(cfg)
         return m
-    raise  NotImplementedError('{} no such model!'.format(model_name))
+    raise NotImplementedError('{} no such model!'.format(model_name))

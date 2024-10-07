@@ -44,13 +44,16 @@ class DeepLabV3Plus(nn.Module):
         if need_fp:
             outs = self._decode(torch.cat((c1, nn.Dropout2d(0.5)(c1))),
                                 torch.cat((c4, nn.Dropout2d(0.5)(c4))))
-            outs = F.interpolate(outs, size=(h, w), mode="bilinear", align_corners=True)
+            #outs = F.interpolate(outs, size=(h, w), mode="bilinear", align_corners=True)
+            outs = F.interpolate(outs, size=(256, 256), mode="bilinear", align_corners=True)
+            print("Outs shape: ", outs.shape)
             out, out_fp = outs.chunk(2)
 
             return out, out_fp
 
         out = self._decode(c1, c4)
-        out = F.interpolate(out, size=(h, w), mode="bilinear", align_corners=True)
+        #out = F.interpolate(out, size=(h, w), mode="bilinear", align_corners=True)
+        out = F.interpolate(out, size=(256, 256), mode="bilinear", align_corners=True)
 
         return out
 

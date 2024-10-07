@@ -1,8 +1,8 @@
 # arguments for dataset
 dataset: cityscapes
 nclass: 19
-crop_size: 801
-data_root: Your/Cityscapes/Path
+crop_size: 321 # 513 # 801
+data_root: /home2/johannae/semi/UniMatch/data/cityscapes
 
 # arguments for training
 epochs: 240

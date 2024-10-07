@@ -24,7 +24,7 @@ def deccode_lines_TP(tpMap, score_thresh=0.1, len_thresh=2, topk_n=1000, ksize=3
     scores = scores[valid_inx]
     indices = indices[valid_inx]
 
-    yy = torch.floor_divide(indices, w).unsqueeze(-1)
+    yy = torch.div(indices, w, rounding_mode='floor').unsqueeze(-1)
     xx = torch.fmod(indices, w).unsqueeze(-1)
     center_ptss = torch.cat((xx, yy), dim=-1)
 

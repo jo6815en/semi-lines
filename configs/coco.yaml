@@ -2,7 +2,7 @@
 dataset: coco
 nclass: 81
 crop_size: 513
-data_root: Your/COCO/Path
+data_root: /home2/johannae/semi/UniMatch/data/coco
 
 # arguments for training
 epochs: 30

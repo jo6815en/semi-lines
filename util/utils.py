@@ -86,7 +86,7 @@ class AverageMeter(object):
 def intersectionAndUnion(output, target, K, ignore_index=255):
     # 'K' classes, output and target sizes are N or N * L or N * H * W, each value in range 0 to K - 1.
     assert output.ndim in [1, 2, 3]
-    assert output.shape == target.shape
+    assert output.shape == target.shape, " target: " + str(target.shape) + "output: " + str(output.shape)
     output = output.reshape(output.size).copy()
     target = target.reshape(target.size)
     output[np.where(target == ignore_index)[0]] = ignore_index

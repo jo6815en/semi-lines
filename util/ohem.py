@@ -26,6 +26,7 @@ class ProbOhemCrossEntropy2d(nn.Module):
                                                        ignore_index=ignore_index)
 
     def forward(self, pred, target):
+
         b, c, h, w = pred.size()
         target = target.view(-1)
         valid_mask = target.ne(self.ignore_index)

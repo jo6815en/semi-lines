@@ -1,0 +1,8 @@
+./data/FinnForest/rgb/train/00295.jpg
+./data/FinnForest/rgb/train/00107.jpg
+./data/FinnForest/rgb/train/00066.jpg
+./data/FinnForest/rgb/train/00200.jpg
+./data/FinnForest/rgb/train/00000.jpg
+./data/FinnForest/rgb/train/00022.jpg
+./data/FinnForest/rgb/train/00191.jpg
+./data/FinnForest/rgb/train/00176.jpg

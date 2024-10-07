@@ -1,0 +1,16 @@
+./data/FinnForest/rgb/train/00295.jpg
+./data/FinnForest/rgb/train/00107.jpg
+./data/FinnForest/rgb/train/00066.jpg
+./data/FinnForest/rgb/train/00200.jpg
+./data/FinnForest/rgb/train/00000.jpg
+./data/FinnForest/rgb/train/00022.jpg
+./data/FinnForest/rgb/train/00191.jpg
+./data/FinnForest/rgb/train/00176.jpg
+./data/FinnForest/rgb/train/00201.jpg
+./data/FinnForest/rgb/train/00002.jpg
+./data/FinnForest/rgb/train/00272.jpg
+./data/FinnForest/rgb/train/00298.jpg
+./data/FinnForest/rgb/train/00094.jpg
+./data/FinnForest/rgb/train/00216.jpg
+./data/FinnForest/rgb/train/00184.jpg
+./data/FinnForest/rgb/train/00069.jpg

@@ -30,13 +30,16 @@ from mlsd_pytorch.data.utils import \
       cut_line_by_xmax)
 
 def parse_label_file_info(img_dir, label_file):
+    print("Here is img_dir: ", img_dir)
+    print("Here is label_file: ", label_file)
     infos = []
     contens = json.load(open(label_file, 'r'))
     for c in tqdm.tqdm(contens):
         w = c['width']
         h = c['height']
         lines = c['lines']
-        fn = c['filename'][:-4]+'.jpg'
+        #  fn = c['filename'][:-4]+'.png'
+        fn = c['filename']
         full_fn = img_dir + fn
         assert os.path.exists(full_fn), full_fn
 
@@ -54,12 +57,12 @@ def parse_label_file_info(img_dir, label_file):
                 "label": "line",
                 "points": [
                     [
-                        np.clip( np.float(l[0]), 0, w),
-                        np.clip( np.float(l[1]), 0, h)
+                        np.clip( np.float64(l[0]), 0, w),
+                        np.clip( np.float64(l[1]), 0, h)
                     ],
                     [
-                        np.clip( np.float(l[2]), 0, w),
-                        np.clip( np.float(l[3]), 0, h)
+                        np.clip( np.float64(l[2]), 0, w),
+                        np.clip( np.float64(l[3]), 0, h)
                     ]
                 ],
                 "group_id": None,
@@ -79,7 +82,7 @@ class Line_Dataset(Dataset):
         self.min_len = cfg.decode.len_thresh
         self.is_train = is_train
 
-        self.img_dir  = cfg.train.img_dir
+        self.img_dir = cfg.train.img_dir
         self.label_fn = cfg.train.label_fn
 
         if not is_train:
@@ -104,7 +107,6 @@ class Line_Dataset(Dataset):
         #random.shuffle(self.anns)
         print("==> valid samples: ", len(self.anns))
 
-
         self.input_size = cfg.datasets.input_size
         self.train_aug = self._aug_train()
         self.test_aug = self._aug_test(input_size=self.input_size)
@@ -115,7 +117,6 @@ class Line_Dataset(Dataset):
             print("===> cache...")
             for ann in tqdm.tqdm(self.anns):
                 self.load_label(ann, False)
-
 
     def __len__(self):
         return len(self.anns)
@@ -151,11 +152,12 @@ class Line_Dataset(Dataset):
             [
                 #Resize(height=input_size,
                 #       width=input_size),
-                Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
+                 Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
                 # Normalize(mean=(0.0, 0.0, 0.0), std=(1.0 / 255, 1.0 / 255, 1.0 / 255))
             ],
             p=1.0)
         return aug
+
     def _line_len_fn(self, l1):
         len1 = np.sqrt((l1[2] - l1[0]) ** 2 + (l1[3] - l1[1]) ** 2)
         return len1
@@ -193,12 +195,14 @@ class Line_Dataset(Dataset):
         return anns
 
     def _crop_aug(self, img, ann_origin):
-        assert img.shape[1] == ann_origin['img_w']
+        assert img.shape[1] == ann_origin['img_w'], "here is the results: " + str(img.shape[1]) + " " + str(ann_origin['img_w'])
         assert img.shape[0] == ann_origin['img_h']
         img_w = ann_origin['img_w']
         img_h = ann_origin['img_h']
         lines = ann_origin['lines']
         xmin = random.randint(1, int(0.1 * img_w))
+
+        print("Random in wireframe_dset.py: ", random.randint(0, 100))
         
 
         #ymin = random.randint(1, 0.1 * img_h)
@@ -235,7 +239,6 @@ class Line_Dataset(Dataset):
 
     def _geo_aug(self, img, ann_origin):
         do_aug = False
-
         lines = ann_origin['lines'].copy()
         if random.random() < 0.5:
             do_aug = True
@@ -319,7 +322,6 @@ class Line_Dataset(Dataset):
             if  self.cache_to_mem:
                 self.cache_dict[label_cache_path] = label
         else:
-
             tp_mask = gen_TP_mask2(ann['norm_lines'], self.input_size // 2, self.input_size // 2,
                                    with_ext=self.cfg.datasets.with_centermap_extend)
             sol_mask, _ = gen_SOL_map(ann['norm_lines'], self.input_size // 2, self.input_size // 2,
@@ -331,10 +333,9 @@ class Line_Dataset(Dataset):
             label = np.zeros((2 * 7 + 2, self.input_size // 2, self.input_size // 2), dtype=np.float32)
             label[0:7, :, :] = sol_mask
             label[7:14, :, :] = tp_mask
-            label[14, :, :] = junction_map[0]
-            label[15, :, :] = line_map[0]
+            label[14, :, :] = junction_map[:,:,0]
+            label[15, :, :] = line_map[:,:,0]
             if not do_aug and self.with_cache:
-                #
                 if self.cache_to_mem:
                     #print("cache to mem: {} [ total: {} ]".format(label_cache_path,len(self.cache_dict) ))
                     self.cache_dict[label_cache_path] = label
@@ -348,7 +349,6 @@ class Line_Dataset(Dataset):
 
         ann = self.anns[index].copy()
         img = cv2.imread(ann['img_full_fn'])
-
         do_aug = False
         if self.is_train and random.random() < 0.5:
             do_aug, img, ann = self._geo_aug(img, ann)
@@ -382,7 +382,6 @@ class Line_Dataset(Dataset):
 
         norm_lines_512_tensor = torch.from_numpy(np.array(norm_lines_512_list, np.float32))
         sol_lines_512_tensor = torch.from_numpy(np.array(ext_lines, np.float32) * 512)
-
         return img_norm, img, label, \
                norm_lines_512_list, \
                norm_lines_512_tensor, \

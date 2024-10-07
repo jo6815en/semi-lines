@@ -1,0 +1,22 @@
+# arguments for dataset
+dataset: finnwoods
+nclass: 16 #?
+crop_size: 512 #321 # 513 # 801
+data_root: /home2/johannae/semi-lines/UniMatch/data/FinnForest
+save_images: /home2/johannae/semi-lines/UniMatch/out
+
+# arguments for training
+epochs: 240
+batch_size: 1 # per GPU x 4 GPUs
+lr: 0.00005  #0.0005
+lr_multi: 10.0
+criterion:
+  name: CELoss
+  kwargs:
+    ignore_index: 255
+conf_thresh: 0.95
+
+# arguments for model
+backbone: resnet101
+replace_stride_with_dilation: [False, False, True]
+dilations: [6, 12, 18]

@@ -32,7 +32,6 @@ def setup_distributed(backend="nccl", port=None):
         world_size = int(os.environ["WORLD_SIZE"])
 
     torch.cuda.set_device(rank % num_gpus)
-
     dist.init_process_group(
         backend=backend,
         world_size=world_size,

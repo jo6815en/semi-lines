@@ -1,27 +1,35 @@
 #!/bin/bash
 now=$(date +"%Y%m%d_%H%M%S")
 
-# modify these augments if you want to try other datasets, splits or methods
-# dataset: ['pascal', 'cityscapes', 'coco']
-# method: ['unimatch', 'fixmatch', 'supervised']
-# exp: just for specifying the 'save_path'
-# split: ['92', '1_16', 'u2pl_1_16', ...]. Please check directory './splits/$dataset' for concrete splits
-dataset='pascal'
-method='unimatch'
-exp='r101'
-split='732'
+# split: ['all', '1_2', '1_4', '1_8', '1_16']
+#        ['skrylle_1_2', 'skrylle_1_4', 'skrylle_1_8', 'skrylle_1_16']
+#        ['snoge_1_2', 'snoge_1_4', 'snoge_1_8', 'snoge_1_16']
 
-config=configs/${dataset}.yaml
+
+dataset='finnwoods'
+method='unimatch'
+exp='unimatch_weibull_large_1_2_3_2'
+split='1_2'
+prev_split='all'
+prev_exp='supervised_large_all_new_3'
+
+
+config=mlsd_pytorch/trees_tiny.yaml
 labeled_id_path=splits/$dataset/$split/labeled.txt
 unlabeled_id_path=splits/$dataset/$split/unlabeled.txt
 save_path=exp/$dataset/$method/$exp/$split
+path_prev_best=exp/finnwoods/supervised/$prev_exp/$prev_split
+#path_prev_best=berzelius_jobs/finnwoods/supervised/$prev_exp/$prev_split
+#path_prev_best=berzelius_exp/$prev_exp/$prev_split
 
 mkdir -p $save_path
 
-python -m torch.distributed.launch \
+torchrun \
+    --standalone\
+    --nnodes=1\
     --nproc_per_node=$1 \
     --master_addr=localhost \
     --master_port=$2 \
     $method.py \
-    --config=$config --labeled-id-path $labeled_id_path --unlabeled-id-path $unlabeled_id_path \
-    --save-path $save_path --port $2 2>&1 | tee $save_path/$now.log
+    --labeled-id-path $labeled_id_path --unlabeled-id-path $unlabeled_id_path \
+    --save-path $save_path --port $2 2>&1 --config $config --prev_best $path_prev_best| tee $save_path/$now.log
