@@ -67,6 +67,8 @@ To run the container and mount your local data, use the following command:
 ```bash
 docker run -it --rm --gpus all -v /path/to/your/data:/home2/johannae/semi-lines/UniMatch johannaengman/semi-lines:latest bash /home2/johannae/semi-lines/UniMatch/scripts/train.sh 1 1234
 ```
+Replace /path/to/your/data with the directory of your code and data. This will run the semi-supervised method, loading pretrained weights. You can also run the fully supervised version to pretrain, by changing the shell script to train_supervised.sh.
+
 
 ### Explanation:
 - `-it`: Runs the container interactively.
