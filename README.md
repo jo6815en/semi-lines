@@ -65,7 +65,7 @@ This will fetch the latest version of the Docker image.
 To run the container and mount your local data, use the following command:
 
 ```bash
-docker run -it --rm -v /path/to/your/data:/app/data johannaengman/semi-lines:latest
+docker run -it --rm --gpus all -v /path/to/your/data:/home2/johannae/semi-lines/UniMatch johannaengman/semi-lines:latest bash /home2/johannae/semi-lines/UniMatch/scripts/train.sh 1 1234
 ```
 
 ### Explanation:
