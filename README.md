@@ -48,6 +48,71 @@ Please modify your dataset path in configuration files.
 
 ## Usage
 
+### Docker
+
+## Pull the Docker Image
+
+Pull the Docker image from Docker Hub using the following command:
+
+```bash
+docker pull johannaengman/semi-lines:latest
+```
+
+This will fetch the latest version of the Docker image.
+
+## Running the Container with Mounted Data
+
+To run the container and mount your local data, use the following command:
+
+```bash
+docker run -it --rm -v /path/to/your/data:/app/data johannaengman/semi-lines:latest
+```
+
+### Explanation:
+- `-it`: Runs the container interactively.
+- `--rm`: Automatically removes the container after it stops running.
+- `-v /path/to/your/data:/app/data`: Mounts your local directory `/path/to/your/data` to the `/app/data` directory inside the container. Replace `/path/to/your/data` with the actual path to your dataset.
+
+### Running the Bash Script
+
+Once the container is running and your data is mounted, execute the bash script inside the container:
+
+```bash
+bash run_script.sh
+```
+
+This script will process the data and run the necessary code based on the dataset you’ve mounted.
+
+## Example
+
+Here’s an example of a full command:
+
+```bash
+docker run -it --rm -v ~/mydata:/app/data johannaengman/semi-lines:latest bash run_script.sh
+```
+
+In this example, the `mydata` directory from your home folder is mounted into the container's `/app/data` folder, and the `run_script.sh` script is executed.
+
+## Stopping the Container
+
+The container will stop automatically when the script finishes. If you need to stop it manually, use:
+
+```bash
+docker stop <container-id>
+```
+
+## Building the Image Locally (Optional)
+
+If users prefer to build the image themselves, provide the build instructions:
+
+```bash
+git clone https://github.com/your-repo.git
+cd your-repo
+docker build -t johannaengman/semi-lines .
+```
+
+
+
 ### UniMatch
 
 ```bash
