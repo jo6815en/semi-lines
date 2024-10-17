@@ -4,11 +4,11 @@ now=$(date +"%Y%m%d_%H%M%S")
 # split: ['all', '1_2', '1_4'. '1_8', '1_16', '1_32', '1_64']
 
 dataset='wireframe'
-method='unimatch'
-exp='unimatch_1_4_test'
-split='1_4'
-pre_exp='supervised_1_4_test'
-pre_split='1_4'
+method='semisup'
+exp='unimatch_1_2'
+split='1_2'
+pre_exp='supervised_1_2'
+pre_split='1_2'
 
 config=mlsd_pytorch/wireframe.yaml
 labeled_id_path=splits/$dataset/$split/labeled.txt

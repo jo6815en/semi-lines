@@ -7,11 +7,11 @@ now=$(date +"%Y%m%d_%H%M%S")
 
 
 dataset='finnwoods'
-method='unimatch'
-exp='unimatch_weibull_large_1_2_3_2'
+method='semisup'
+exp='unimatch_large_1_2'
 split='1_2'
-prev_split='all'
-prev_exp='supervised_large_all_new_3'
+prev_split='1_2'
+prev_exp='supervised_large_1_2'
 
 
 config=mlsd_pytorch/trees_tiny.yaml

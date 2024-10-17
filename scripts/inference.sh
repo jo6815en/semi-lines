@@ -2,11 +2,9 @@
 now=$(date +"%Y%m%d_%H%M%S")
 
 # test_set: ['finn', 'snoge', 'skrylle']
+# method: ['supervised', 'semisup']
 
 dataset='finnwoods'
-#method='unimatch'
-#split='skrylle_1_2'
-
 method='supervised'
 split='all'
 exp='supervised_weibull_test'

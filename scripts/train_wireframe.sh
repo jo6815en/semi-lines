@@ -3,8 +3,8 @@ now=$(date +"%Y%m%d_%H%M%S")
 
 dataset='wireframe'
 method='supervised'
-exp='supervised_1_4_test'
-split='1_4'
+exp='supervised_1_2'
+split='1_2'
 
 
 config=mlsd_pytorch/wireframe.yaml

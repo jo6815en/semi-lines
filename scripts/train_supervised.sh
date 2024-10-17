@@ -5,8 +5,8 @@ now=$(date +"%Y%m%d_%H%M%S")
 
 dataset='finnwoods'
 method='supervised'
-exp='supervised_large_all_new_3'
-split='all'
+exp='supervised_large_1_2_2'
+split='1_2'
 
 
 config=mlsd_pytorch/trees_supervised.yaml
