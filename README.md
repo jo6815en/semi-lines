@@ -4,7 +4,7 @@
 
 This is the official PyTorch implementation of our semi supervised method for line segement detection. 
 
-### Pretrained Weights
+## Pretrained Weights
 
 There are some pretrained weights for the two datasets and some splits.
 
@@ -19,7 +19,7 @@ There are some pretrained weights for the two datasets and some splits.
      
 ```
 
-### Dataset
+## Dataset
 
 - Finnwood: [Link to git](https://github.com/juanb09111/FinnForest)
 - Wireframe: [Link to git](https://github.com/huangkuns/wireframe) 
@@ -43,7 +43,7 @@ Please modify your dataset path in configuration files.
     └── masks
 ```
 
-### Usage
+## Usage
 
 ### Docker
 
@@ -70,7 +70,7 @@ docker run -it --gpus all -v /path/to/your/data:/home2/johannae/semi-lines/UniMa
 - `-it`: Runs the container interactively.
 - `-v /path/to/your/data:/app/data`: Mounts your local directory `/path/to/your/data` to the `/app/data` directory inside the container. Replace `/path/to/your/data` with the actual path to your dataset.
 
-### Running the Script
+## Running the Script
 
 Once the container is running and your data is mounted, execute the script inside the container:
 
