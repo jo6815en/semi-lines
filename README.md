@@ -43,11 +43,11 @@ Please modify your dataset path in configuration files.
     └── masks
 ```
 
-## Usage
+### Usage
 
 ### Docker
 
-## Pull the Docker Image
+### Pull the Docker Image
 
 Pull the Docker image from Docker Hub using the following command:
 
@@ -57,7 +57,7 @@ docker pull johannaengman/semi-lines:latest
 
 This will fetch the latest version of the Docker image.
 
-## Running the Container with Mounted Data
+### Running the Container with Mounted Data
 
 To run the container and mount your local data, use the following command:
 
@@ -65,7 +65,7 @@ To run the container and mount your local data, use the following command:
 docker run -it --gpus all -v /path/to/your/data:/home2/johannae/semi-lines/UniMatch johannaengman/semi-lines:latest
 ```
 
-### Explanation:
+#### Explanation:
 - ` /path/to/your/data`: Replace with the directory of your code and data. 
 - `-it`: Runs the container interactively.
 - `-v /path/to/your/data:/app/data`: Mounts your local directory `/path/to/your/data` to the `/app/data` directory inside the container. Replace `/path/to/your/data` with the actual path to your dataset.
