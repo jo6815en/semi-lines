@@ -70,7 +70,7 @@ docker run -it --gpus all -v /path/to/your/data:/home2/johannae/semi-lines/UniMa
 - `-it`: Runs the container interactively.
 - `-v /path/to/your/data:/app/data`: Mounts your local directory `/path/to/your/data` to the `/app/data` directory inside the container. Replace `/path/to/your/data` with the actual path to your dataset.
 
-## Running the Script
+## Running the Training Script
 
 Once the container is running and your data is mounted, execute the script inside the container:
 
@@ -80,7 +80,15 @@ sh scripts/train.sh  <num_gpu> <port>
 
 This will run the semi-supervised method with pretraind weights from the supervised method. To run the supervised method in order to obtain the weights, run `scripts/train_supervised.sh`
 
+## Running the Inference Script
 
+Once the container is running and your data is mounted, execute the script inside the container:
+
+```bash
+sh scripts/inference.sh  <num_gpu> <port>
+```
+
+In the inference script you can change on what method you want to run and with which test dataset.
 
 ## Citation
 
