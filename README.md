@@ -21,13 +21,12 @@ There are some pretrained weights for the two datasets and some splits.
 
 ### Dataset
 
-- FInnwood: [JPEGImages](https://github.com/juanb09111/FinnForest)
-- Cityscapes: [leftImg8bit](https://www.cityscapes-dataset.com/file-handling/?packageID=3) | [gtFine](https://drive.google.com/file/d/1E_27g9tuHm6baBqcA7jct_jqcGA89QPm/view?usp=sharing)
-- COCO: [train2017](http://images.cocodataset.org/zips/train2017.zip) | [val2017](http://images.cocodataset.org/zips/val2017.zip) | [masks](https://drive.google.com/file/d/166xLerzEEIbU7Mt1UGut-3-VN41FMUb1/view?usp=sharing)
+- Finnwood: [Link to git](https://github.com/juanb09111/FinnForest)
+- Wireframe: [Link to git](https://github.com/huangkuns/wireframe) 
+- Spruce A & B:
 
 Please modify your dataset path in configuration files.
 
-**The groundtruth masks have already been pre-processed by us. You can use them directly.**
 
 ```
 ├── [Your Pascal Path]
