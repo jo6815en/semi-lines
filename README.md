@@ -21,26 +21,30 @@ There are some pretrained weights for the two datasets and some splits.
 
 ## Dataset
 
-- Finnwood: [Link to git](https://github.com/juanb09111/FinnForest)
+- Finnwood: [Images](https://github.com/juanb09111/FinnForest)
 - Wireframe: [Link to git](https://github.com/huangkuns/wireframe) 
 - Spruce A & B:
+
+Annotations from Finnwood are already in data/FinnForest/.
 
 Please modify your dataset path in configuration files.
 
 
 ```
-├── [Your Pascal Path]
-    ├── JPEGImages
-    └── SegmentationClass
-    
-├── [Your Cityscapes Path]
-    ├── leftImg8bit
-    └── gtFine
-    
-├── [Your COCO Path]
-    ├── train2017
-    ├── val2017
-    └── masks
+├── data/
+    ├── FinnForest/
+        ├── rgb/
+        ├── annos_train_finnwoods.json
+        └── annos_val_finnwoods.json
+    ├── sam_segs/
+        ├── skrylle_frames/
+        ├── snoge_frames/
+        ├── annos_snoge.json
+        └── annos_skrylle_new.json
+    └── Wireframe/
+        ├── images/
+        ├── train.json
+        └── valid.json
 ```
 
 ## Usage
