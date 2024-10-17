@@ -72,7 +72,7 @@ docker run -it --gpus all -v /path/to/your/data:/home2/johannae/semi-lines/UniMa
 #### Explanation:
 - ` /path/to/your/data`: Replace with the directory of your code and data. 
 - `-it`: Runs the container interactively.
-- `-v /path/to/your/data:/app/data`: Mounts your local directory `/path/to/your/data` to the `/app/data` directory inside the container. Replace `/path/to/your/data` with the actual path to your dataset.
+- `-v /path/to/your/data:`: Mounts your local directory `/path/to/your/data` to the `/home2/johannae/semi-lines/UniMatch` directory inside the container. Replace `/path/to/your/data` with the actual path to your dataset.
 
 ## Running the Training Script
 
