@@ -3,7 +3,8 @@ datasets:
     input_size: 512
 
 model:
-    model_name: 'mobilev2_mlsd_large'
+    # model_name: 'mobilev2_mlsd_large'
+    model_name: 'mobilev2_mlsd'
     with_deconv: True
 
 # arguments for dataset

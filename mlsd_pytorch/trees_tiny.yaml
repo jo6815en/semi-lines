@@ -3,8 +3,8 @@ datasets:
     input_size: 512
 
 model:
-    # model_name: 'mobilev2_mlsd'
-    model_name: 'mobilev2_mlsd_large'
+    model_name: 'mobilev2_mlsd'
+    #model_name: 'mobilev2_mlsd_large'
     with_deconv: True
 
 # arguments for dataset
@@ -24,7 +24,7 @@ train:
     img_dir: "./data/FinnForest/rgb/train/"
     label_fn: "./data/FinnForest/annos_train_finnwoods.json"
     num_train_epochs: 200 #500
-    batch_size: 1 #8 # 2 #16 #6
+    batch_size: 2 #8 # 2 #16 #6
     learning_rate: 0.0001 #0.00005 # 0.0001 #0.001 testa 0.00005 sen
     use_step_lr_policy: True
     weight_decay: 0.000001

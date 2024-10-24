@@ -9,6 +9,7 @@ from torch import nn
 import torch.backends.cudnn as cudnn
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
+from torch.optim import lr_scheduler
 
 
 from dataset.semi import SemiDataset, SemiDataset_collate_fn
@@ -163,6 +164,9 @@ def main():
 
     optimizer = torch.optim.Adam(params=model.parameters(), lr=cfg.train.learning_rate,
                                  weight_decay=cfg.train.weight_decay)
+    
+    #StepLR (Decay the learning rate by gamma every step_size epochs)
+    scheduler = lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.05)
 
     if os.path.exists(cfg.train.load_from):
         print('load from: ', cfg.train.load_from)
@@ -299,6 +303,7 @@ def main():
                     torch.save(checkpoint, os.path.join(args.save_path, 'best_sAP.pth'))
                 if is_best:
                     torch.save(checkpoint, os.path.join(args.save_path, 'best.pth'))
+        scheduler.step()
 
 
 if __name__ == '__main__':
