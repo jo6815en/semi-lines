@@ -13,6 +13,7 @@ from torch.optim import SGD
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 import torch.distributed as dist
+from torch.optim import lr_scheduler
 
 import yaml
 
@@ -108,7 +109,10 @@ def main():
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model.load_state_dict(torch.load(cfg.train.load_from, map_location=device), strict=False)
 
-    optimizer = torch.optim.Adam(params=model.parameters(), lr=cfg.train.learning_rate, weight_decay=cfg.train.weight_decay)
+    optimizer = torch.optim.Adam(params=model.parameters(), lr=cfg.train.learning_rate, 
+                                 weight_decay=cfg.train.weight_decay)
+    scheduler = lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.8)
+
 
     if rank == 0:
         logger.info('Total params: {:.1f}M\n'.format(count_params(model)))
@@ -352,6 +356,8 @@ def main():
             if is_best_sAP:
                 best_epoch = epoch
                 torch.save(checkpoint, os.path.join(args.save_path, 'best_sAP.pth'))
+        scheduler.step()
+        #print('Took step, learning rate: ', optimizer.param_groups[0]['lr'])
 
 
 if __name__ == '__main__':
