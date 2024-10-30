@@ -86,13 +86,13 @@ This will run the semi-supervised method with pretraind weights from the supervi
 
 ## Running the Inference Script
 
-Once the container is running and your data is mounted, execute the script inside the container:
+If you want to run inference on the best model obtained during training run:
 
 ```bash
 sh scripts/inference.sh  <num_gpu> <port>
 ```
 
-In the inference script you can change on what method you want to run and with which test dataset.
+In the inference script you can change what method you want to run and with which test dataset.
 
 ## Citation
 
