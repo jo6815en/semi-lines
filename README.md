@@ -38,7 +38,7 @@ Please modify your dataset path in configuration files.
         └── annos_val_finnwoods.json
     ├── sam_segs/
         ├── skrylle_frames/
-        ├── snoge_frames/
+        ├── snoge_frames2/
         ├── annos_snoge.json
         └── annos_skrylle_new.json
     └── Wireframe/
