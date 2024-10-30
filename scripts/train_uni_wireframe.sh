@@ -5,10 +5,10 @@ now=$(date +"%Y%m%d_%H%M%S")
 
 dataset='wireframe'
 method='semisup'
-exp='unimatch_1_2'
-split='1_2'
-pre_exp='supervised_1_2'
-pre_split='1_2'
+exp='unimatch_1_16_finn_other_lr_decay'
+split='finn_1_16'
+pre_exp='supervised_1_16'
+pre_split='1_16'
 
 config=mlsd_pytorch/wireframe.yaml
 labeled_id_path=splits/$dataset/$split/labeled.txt

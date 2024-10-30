@@ -8,10 +8,10 @@ now=$(date +"%Y%m%d_%H%M%S")
 
 dataset='finnwoods'
 method='semisup'
-exp='unimatch_large_1_2'
-split='1_2'
-prev_split='1_2'
-prev_exp='supervised_large_1_2'
+exp='semisup_1_4'
+split='1_4'
+prev_split='1_4'
+prev_exp='supervised_1_4'
 
 
 config=mlsd_pytorch/trees_tiny.yaml
@@ -24,7 +24,7 @@ path_prev_best=exp/finnwoods/supervised/$prev_exp/$prev_split
 
 mkdir -p $save_path
 
-torchrun \
+stdbuf -oL -eL torchrun \
     --standalone\
     --nnodes=1\
     --nproc_per_node=$1 \

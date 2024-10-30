@@ -5,7 +5,7 @@ now=$(date +"%Y%m%d_%H%M%S")
 
 dataset='finnwoods'
 method='supervised'
-exp='supervised_large_1_2_2'
+exp='supervised_1_2_lr_decay_test'
 split='1_2'
 
 
