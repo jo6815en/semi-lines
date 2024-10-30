@@ -62,7 +62,7 @@ test_snoge:
 
 test_skrylle:
     img_dir: "./data/sam_segs/skrylle_frames/"
-    label_fn: "./data/sam_segs/annos_skrylle_new.json"
+    label_fn: "./data/sam_segs/annos_skrylle.json"
 
 
 
