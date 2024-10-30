@@ -59,7 +59,7 @@ Pull the Docker image from Docker Hub using the following command:
 docker pull johannaengman/semi-lines:latest
 ```
 
-This will fetch the latest version of the Docker image.
+This will fetch the Docker image used to run this code.
 
 ### Running the Container with Mounted Data
 
