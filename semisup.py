@@ -111,7 +111,7 @@ def main():
 
     optimizer = torch.optim.Adam(params=model.parameters(), lr=cfg.train.learning_rate, 
                                  weight_decay=cfg.train.weight_decay)
-    scheduler = lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.8)
+    # scheduler = lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.9)
 
 
     if rank == 0:
@@ -269,27 +269,19 @@ def main():
             ignore_mask_cutmixed1 = ignore_mask_cutmixed1[:, :, ::2, ::2]
 
             loss_u_s1 = abs(criterion_u(pred_u_s1, mask_u_w_cutmixed1))
-            # loss_u_s1 = abs(criterion_u(pred_u_s1, pred_u_w))
             loss_u_s1 = loss_u_s1 * (conf_u_w_old >= cfg.unimatch.conf_thresh)
             loss_u_s1 = loss_u_s1.sum() / (16.0 * cfg.train.batch_size * (conf_u_w_old >= cfg.unimatch.conf_thresh).sum().item())
-            # loss_u_s1 = loss_u_s1.sum() / 65536.0
-            # loss_u_s1 = loss_u_s1.sum() / (ignore_mask_cutmixed2 != 255).sum().item()
 
             ignore_mask_cutmixed2 = ignore_mask_cutmixed2[:, :, ::2, ::2]
 
             loss_u_s2 = abs(criterion_u(pred_u_s2, mask_u_w_cutmixed2))
-            # loss_u_s2 = abs(criterion_u(pred_u_s2, pred_u_w))
             loss_u_s2 = loss_u_s2 * (conf_u_w_old >= cfg.unimatch.conf_thresh)
             loss_u_s2 = loss_u_s2.sum() / (16.0 * cfg.train.batch_size * (conf_u_w_old >= cfg.unimatch.conf_thresh).sum().item())
-            # loss_u_s2 = loss_u_s2.sum() / 65536.0
-            # loss_u_s2 = loss_u_s2.sum() / (ignore_mask_cutmixed2 != 255).sum().item()
 
             # loss_u_w_fp = loss_fn(pred_u_w_fp, mask_u_w, batch["gt_lines_tensor_512_list"], batch["sol_lines_512_all_tensor_list"])
             # loss_u_w_fp = loss_u_w_fp['loss']
 
-            # loss = loss_x
             loss = (loss_x * 9.0 + loss_u_s1 * 0.5 + loss_u_s2 * 0.5) / 10.0
-            # loss = (loss_x * 19.0 + loss_u_s1 * 0.5 + loss_u_s2 * 0.5) / 20.0
 
             torch.distributed.barrier()
 
@@ -356,8 +348,7 @@ def main():
             if is_best_sAP:
                 best_epoch = epoch
                 torch.save(checkpoint, os.path.join(args.save_path, 'best_sAP.pth'))
-        scheduler.step()
-        #print('Took step, learning rate: ', optimizer.param_groups[0]['lr'])
+        # scheduler.step()
 
 
 if __name__ == '__main__':

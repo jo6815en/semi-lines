@@ -166,7 +166,7 @@ def main():
                                  weight_decay=cfg.train.weight_decay)
     
     #StepLR (Decay the learning rate by gamma every step_size epochs)
-    scheduler = lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.8)
+    # scheduler = lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.8)
 
     if os.path.exists(cfg.train.load_from):
         print('load from: ', cfg.train.load_from)
@@ -303,7 +303,7 @@ def main():
                     torch.save(checkpoint, os.path.join(args.save_path, 'best_sAP.pth'))
                 if is_best:
                     torch.save(checkpoint, os.path.join(args.save_path, 'best.pth'))
-        scheduler.step()
+        # scheduler.step()
 
 
 if __name__ == '__main__':
