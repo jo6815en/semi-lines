@@ -21,8 +21,8 @@ There are some pretrained weights for the two datasets and some splits.
 
 ## Dataset
 
-- Finnwood: [Images](https://github.com/juanb09111/FinnForest)
-- Wireframe: [Link to git](https://github.com/huangkuns/wireframe) 
+- Finnwood: [git](https://github.com/juanb09111/FinnForest)
+- Wireframe: [git](https://github.com/huangkuns/wireframe) 
 - Spruce A & B: [Download](https://vision.maths.lth.se/semi-lines/sam_segs.zip)
 
 Annotations from Finnwood are already in data/FinnForest/.
