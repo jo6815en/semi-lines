@@ -9,7 +9,7 @@ This is the official PyTorch implementation of our semi supervised method for li
 We have created a demo file where you simply read pre-trained weight and run on one image of your choice.
 
 ```bash
-pythib demo.py
+python demo.py
 ```
 
 
