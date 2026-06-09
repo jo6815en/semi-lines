@@ -105,9 +105,18 @@ In the inference script you can change what method you want to run and with whic
 
 ## Citation
 
-If you find this project useful, please consider citing:
+If you find this project useful, please cite:
 
 ```bibtex
-
-```
+@inproceedings{engman2025impact,
+  author    = {Johanna Engman and Kalle {\AA}str{\"o}m and Magnus Oskarsson},
+  title     = {The Impact of Semi-supervised Learning on Line Segment Detection},
+  booktitle = {Image Analysis -- 23rd Scandinavian Conference, SCIA 2025},
+  series    = {Lecture Notes in Computer Science},
+  volume     = {15726},
+  pages      = {123--136},
+  year       = {2025},
+  publisher  = {Springer},
+  doi        = {10.1007/978-3-031-95918-9_9}
+}
 
